@@ -3,41 +3,46 @@
 \docType{data}
 \name{atusresp}
 \alias{atusresp}
-\title{ATUS 2014 Respondents}
-\format{A data frame with 11,592 observations on the following variables:
+\title{ATUS Respondent Information (2003-2016)}
+\format{A data frame with 181,335 observations. The following variables (with lower-case original variable name in parentheses, if different from the variable name here, for ease of matching to the official codebook):
 \describe{
  \item{tucaseid}{respondent id}
- \item{earn_week_overtime}{total weekly overtime earnings}
- \item{hourly_wage}{hourly rate of pay on your main job excluding overtime pay, tips, and commissions}
- \item{hrs_weekly}{hours usually worked per week at this rate}
- \item{hourly_status}{paid hourly or nonhourly}
- \item{weekly_earn}{weekly earnings at main job}
- \item{other_payment}{whether respondent typically receives overtime pay, commissions, or tips at the main job}
- \item{weeks_year}{weeks paid per year}
- \item{hrs_weekly2}{hours worked per week at main job}
- \item{hrs_weekly_other}{hours worked per week at other jobs}
- \item{industry_code}{industry code (see codebook)}
- \item{occup_code}{occupation code (see codebook)}
- \item{labor_status}{labor force status}
- \item{student_status}{whether or not the respondent is currently enrolled in a high school, college, or university}
- \item{num_children}{number of children in household}
- \item{holiday}{whether the diary day was a holiday}
- \item{diary_date}{date of diary day in 'yyyymmdd' format}
- \item{diary_day}{day of week for diary day}
- \item{wt}{ATUS final weight}
+ \item{tuyear}{ATUS year}
+ \item{diary_date}{date of diary day in 'yyyymmdd' format ('tudiarydate')}
+ \item{holiday}{whether the diary day was a holiday ('trholiday')}
+ \item{occup_code}{occupation code ('trmjocc1'), see codebook for full unabbreviated list of categories}
+ \item{ind_code}{industry code ('trmjind1'), see codebook for full unabbreviated list of categories}
+ \item{labor_status}{labor force status ('telfs')}
+ \item{student_status}{whether or not the respondent is currently enrolled in a high school, college, or university ('teschenr')}
+ \item{ptft}{whether the respondent works part-time or full-time ('trdpftpt')}
+ \item{work_class}{class of work ('teio1cow')}
+ \item{hourly_wage}{hourly earnings at main job ('trernhly')}
+ \item{weekly_earn}{weekly earnings at main job ('trernwa')}
+ \item{work_hrs_week}{number of hours worked per week ('tehruslt')}
+ \item{mult_jobs}{had more than 1 jobs in 7 days prior to interview ('temjot')}
+ \item{partner_hh}{presence of respondent's spouse/unmarried partner in the household ('trsppres')}
+ \item{partner_works}{employment status of spouse/partner ('tespempnot')}
+ \item{partner_ptft}{whether the spouse/partner works part-time or full-time ('trspftpt')}
+ \item{hh_size}{number of people living in household ('trnumhou')}
+ \item{hh_child}{presence of household children aged < 18 ('trhhchild')}
+ \item{hh_child_youngest_age}{age of youngest household child < 18 ('tryhhchild')}
+ \item{wt}{ATUS final weight ('tufnwgtp')}
 }}
 \source{
-\url{http://www.bls.gov/tus/datafiles_2014.htm} with code book at \url{http://www.bls.gov/tus/atusintcodebk14.pdf}.
+ATUS Respondent data file from \url{https://www.bls.gov/tus/datafiles_0316.htm} with code book at \url{https://www.bls.gov/tus/atusintcodebk0316.pdf}. A list of Frequently Used Variables can be found at \url{https://www.bls.gov/tus/freqvariables.pdf}.
 }
 \usage{
-atusresp
+data(atusresp)
 }
 \description{
-This is a 11,592 by 19 data frame containing information on the respondents, including their labor force status, earnings, and the diary day (day on which they were interviewed).
+This is a 181,335 by 21 data frame containing information on the respondents, including their employment, household, and the diary day (day on which they were interviewed). The data frame here is taken from the ATUS 2003-2016 Respondent file. Variables containing no more than 90\% values missing were considered for inclusion, especially those found on the ATUS Frequently Used Variables list.
 }
 \examples{
 data(atusresp)
 
+hist(atusresp$weekly_earn, main="Distribution of Weekly Earnings of ATUS Respondents (all years)")
+boxplot(weekly_earn ~ tuyear, data=atusresp, horizontal=TRUE, las=1,
+        main="Weekly Earnings by Year", ylab="Year", ylab="Weekly Earnings")
 }
 \keyword{datasets}
 

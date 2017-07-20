@@ -3,36 +3,51 @@
 \docType{data}
 \name{atuscps}
 \alias{atuscps}
-\title{CPS 2014}
+\title{Current Population Survey for ATUS Households (2003-2016)}
 \format{Contains information about each household member of all individuals selected to participate in ATUS.
-A data frame with 68,198 observations on the following variables:
+A data frame with 942,073 observations on the following variables:
 \describe{
- \item{tucaseid}{respondent id}
- \item{lineid}{household member id}
- \item{region}{region of household (definitions are listed in Appendix A of codebook)}
- \item{division}{census division of  household (definitions are listed in Appendix A of codebook)}
- \item{famincome}{family income}
- \item{housing_type}{type of housing unit}
- \item{hh_size}{number of members in household}
- \item{month}{month of interview}
- \item{edu}{respondent education level, condensed}
- \item{sex}{respondent sex}
- \item{age}{respondent age}
- \item{citizen}{citizenship status of respondent}
- \item{atus}{indicator for whether respondent was interviewd for ATUS}
+ \item{tucaseid}{household id}
+ \item{lineid}{household member id ('tulineno'), equals 1 if selected for ATUS}
+ \item{region}{region of household (definitions are listed in Appendix A of codebook) ('gereg')}
+ \item{state}{state of household ('gestfips')}
+ \item{sex}{respondent sex ('pesex')}
+ \item{age}{respondent age ('prtage'); prior to May 2004, 80 meant age 80+, afterwards, 85 meant age 85+}
+ \item{edu}{respondent education level, only available for adults ('peeduca')}
+ \item{race}{respondent race ('ptdtrace')}
+ \item{hispanic}{respondent identifies as hispanic? ('pehspnon')}
+ \item{country_born}{respondent's country of birth ('penatvty'), "US" means continental U.S. and "non-US" means otherwise}
+ \item{citizen}{citizenship status of respondent ('prcitshp')}
+ \item{marital}{respondent's marital status ('pemaritl')}
+ \item{hh_size}{number of members in household ('hrnumhou')}
+ \item{home_type}{rent or own home ('hetenure')}
+ \item{famincome}{income in dollars of all family members aged 15+ in the past 12 months including work earnings, pensions, and dividends ('hefaminc' and 'hufaminc'), see codebook for details about topcoding, which has changed in October 2003}
+ \item{cps_year}{year of last CPS interview ('hryear4')}
+ \item{cps_month}{month of last CPS interview ('hrmonth')}
+ \item{atus}{whether respondent was selected to interview for ATUS ('tulineno' == 1)}
 }}
 \source{
-\url{http://www.bls.gov/tus/datafiles_2014.htm}
+ATUS-CPS data file from \url{https://www.bls.gov/tus/datafiles_0316.htm}  with code book at \url{https://www.bls.gov/tus/atuscpscodebk0316.pdf}. A list of Frequently Used Variables can be found at \url{https://www.bls.gov/tus/freqvariables.pdf}.
 }
 \usage{
-atuscps
+data(atuscps)
 }
 \description{
-This is a 68,198 by 13 data frame containing information about each household member of all individuals in ATUS. The information here was merged in from the CPS and was collected 2 to 5 months before the ATUS interview.
+This is a 1,008,405 by 18 data frame containing information about each household member of all individuals selected to participate in the ATUS, regardless of whether or not they actually responded to the ATUS. The 'tucaseid' variable identifies unique households. The 'lineid' variable enumerates individuals within each household. All individuals selected to participate in the ATUS have 'lineid' = 1. Note that the information collected in this dataset was done so 2 to 5 months before the ATUS interview. Variables containing no more than 80\% values missing were considered for inclusion, especially those found on the ATUS Frequently Used Variables list.
 }
 \examples{
 data(atuscps)
 
+# to obtain only the atus respondents:
+cps <- atuscps[atuscps$atus == "yes",]
+
+# distribution of households across regions of the U.S.
+# note that stratified sampling was done
+barplot(table(cps$region))
+
+barplot(table(cps$race), horiz=TRUE, las=1)
+
+hist(cps$age)
 }
 \keyword{datasets}
 

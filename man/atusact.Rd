@@ -3,34 +3,60 @@
 \docType{data}
 \name{atusact}
 \alias{atusact}
-\title{ATUS 2014 Activities}
-\format{A data frame with 223,249 observations on the following variables:
+\title{ATUS Activities (2003-2016)}
+\format{A data frame with 3,554,306 observations on the following variables:
 \describe{
  \item{tucaseid}{respondent ID}
- \item{actid}{activity number}
- \item{location}{where the activity was performed (see codebook)}
- \item{dur}{Duration of activity in minutes (last activity truncated at 4:00 a.m.)}
-\item{cum_dur}{Cumulative duration of activity lengths in minutes; last activity truncated at
-4:00am or 1440 minutes; cumulative total of `duration` for each individual/activity combination}
-\item{starttime}{Activity start time.}
-\item{stoptime}{Activity stop time.}
-\item{t1code}{Tier 1 activity code (see codebook for details).}
-\item{t2code}{Tier 2 activity code (see codebook for details).}
-\item{t3code}{Tier 3 activity code (see codebook for details).}
+ \item{actid}{activity number ('tuactivity_n')}
+\item{duration}{activity duration in minutes, truncated to a 24-hour day ('tuactdur24')}
+\item{start}{activity start time ('tustarttim')}
+\item{stop}{activity stop time ('tustoptime')}
+\item{tiercode}{6-digit tier 1/2/3 activity code ('trcodep'); e.g. '130124' corresponds to activity tier 1 = '13', tier 2 = '01', tier 3 = '24' (see codebook for details)}
 
 }}
 \source{
-\url{http://www.bls.gov/tus/datafiles_2014.htm} with code book at \url{http://www.bls.gov/tus/atusintcodebk14.pdf}.
+ATUS Activity data file from \url{https://www.bls.gov/tus/datafiles_0316.htm} with tier code book at \url{https://www.bls.gov/tus/lexiconnoex0316.pdf}.
 }
 \usage{
-atusact
+data(atusact)
 }
 \description{
-This is a 223,249 by 10 data frame relating to how ATUS respondents spent their diary day. It includes information such as activity codes, activity start and stop times, and locations. Due to the presence of multiple codes for things like activities and locations, the codes have not been converted to their appropriate labels for conciseness. This file differs from the original Activities file in that all variables relating to dependent care have been removed. Durations for events with a reported end time after 4am the following day have been truncated so that the cumulative duration of all activities do not exceed 24 hours for any individual.
+This is a 3,554,306 by 6 data frame relating to how ATUS respondents spent their diary day, taken from the ATUS 2003-2016 Activities file. It includes information such as activity codes, activity start and stop times, and locations. Activities are encoded using three 2-digit tier codes. The broadest classification of activities is tier 1, followed by tier 2, and tier 3. If one is not interested in studying the exact start and end times or frequencies of certain activities throughout the day, it may be more convenient to work with the Activity Summary dataset ('atussum') which contains the cumulative times spent on each activity in individual columns.
 }
 \examples{
 data(atusact)
 
+# example activity: sleeping
+#          tier 1 code = 01 (personal care)
+#          tier 2 code = 01 (sleeping)
+#          tier 3 code = all
+
+# this is a data frame with all start/stop/durations for sleeping
+sleeping <- atusact[atusact$tiercode > 10100 & atusact$tiercode < 10200,]
+
+# example activity: doing homework (for a class towards a degree)
+#          tier 1 code = 06
+#          tier 2 code = 03
+#          tier 3 code = 01
+
+hw <- atusact[atusact$tiercode == 60301,]
+hist(hw$duration)
+summary(hw$duration)
+
+# Note that all these durations (in minutes) are per-instance. They are not
+# necessarily reflective of the total time spent on the activity over the diary day;
+# e.g. if someone did homework for an hour in the morning and for an hour in the
+# evening, that would constitute 2 rows in the data frame. To get an aggregate
+# duration per day, we would want to sum over all durations of the activity for each
+# individual. e.g. for homework:
+hw_by_individual <- aggregate(duration ~ tucaseid, data=hw, FUN=sum)
+
+# Aggregate numbers can be more easily retrieved from the 'atussum' file that already
+# has the aggregate durations per activity code (but does not include the start/stop
+# times).
+}
+\seealso{
+\code{\link{atussum}} contains total durations spent in each activity code over the diary-day per individual.
 }
 \keyword{datasets}
 
