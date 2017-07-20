@@ -4,11 +4,9 @@
 \name{atuscps}
 \alias{atuscps}
 \title{Current Population Survey for ATUS Households (2003-2016)}
-\format{Contains information about each household member of all individuals selected to participate in ATUS.
-A data frame with 942,073 observations on the following variables:
+\format{A data frame with 181,335 observations on the following variables:
 \describe{
  \item{tucaseid}{household id}
- \item{lineid}{household member id ('tulineno'), equals 1 if selected for ATUS}
  \item{region}{region of household (definitions are listed in Appendix A of codebook) ('gereg')}
  \item{state}{state of household ('gestfips')}
  \item{sex}{respondent sex ('pesex')}
@@ -19,12 +17,8 @@ A data frame with 942,073 observations on the following variables:
  \item{country_born}{respondent's country of birth ('penatvty'), "US" means continental U.S. and "non-US" means otherwise}
  \item{citizen}{citizenship status of respondent ('prcitshp')}
  \item{marital}{respondent's marital status ('pemaritl')}
- \item{hh_size}{number of members in household ('hrnumhou')}
  \item{home_type}{rent or own home ('hetenure')}
  \item{famincome}{income in dollars of all family members aged 15+ in the past 12 months including work earnings, pensions, and dividends ('hefaminc' and 'hufaminc'), see codebook for details about topcoding, which has changed in October 2003}
- \item{cps_year}{year of last CPS interview ('hryear4')}
- \item{cps_month}{month of last CPS interview ('hrmonth')}
- \item{atus}{whether respondent was selected to interview for ATUS ('tulineno' == 1)}
 }}
 \source{
 ATUS-CPS data file from \url{https://www.bls.gov/tus/datafiles_0316.htm}  with code book at \url{https://www.bls.gov/tus/atuscpscodebk0316.pdf}. A list of Frequently Used Variables can be found at \url{https://www.bls.gov/tus/freqvariables.pdf}.
@@ -33,21 +27,18 @@ ATUS-CPS data file from \url{https://www.bls.gov/tus/datafiles_0316.htm}  with c
 data(atuscps)
 }
 \description{
-This is a 1,008,405 by 18 data frame containing information about each household member of all individuals selected to participate in the ATUS, regardless of whether or not they actually responded to the ATUS. The 'tucaseid' variable identifies unique households. The 'lineid' variable enumerates individuals within each household. All individuals selected to participate in the ATUS have 'lineid' = 1. Note that the information collected in this dataset was done so 2 to 5 months before the ATUS interview. Variables containing no more than 80\% values missing were considered for inclusion, especially those found on the ATUS Frequently Used Variables list.
+This is a 181,335 by 13 data frame containing information collected in the CPS about all individuals who were selected for and responded to the ATUS. The 'tucaseid' variable identifies unique households. Note that the information collected in this dataset was done so 2 to 5 months before the ATUS interview. Variables containing no more than 80\% values missing were considered for inclusion, especially those found on the ATUS Frequently Used Variables list. The original CPS-ATUS file online contains information on all household members selected to participate in the ATUS; for the purpose of minimizing the size of the R package, we removed all non-respondents.
 }
 \examples{
 data(atuscps)
 
-# to obtain only the atus respondents:
-cps <- atuscps[atuscps$atus == "yes",]
-
 # distribution of households across regions of the U.S.
 # note that stratified sampling was done
-barplot(table(cps$region))
+barplot(table(atuscps$region))
 
-barplot(table(cps$race), horiz=TRUE, las=1)
+barplot(table(atuscps$race), horiz=TRUE, las=1)
 
-hist(cps$age)
+hist(atuscps$age)
 }
 \keyword{datasets}
 

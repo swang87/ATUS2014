@@ -8,7 +8,8 @@
 \describe{
  \item{tucaseid}{respondent id}
  \item{tuyear}{ATUS year}
- \item{diary_date}{date of diary day in 'yyyymmdd' format ('tudiarydate')}
+ \item{diary_mo}{1-12, month of diary day in (derived from 'tudiarydate')}
+ \item{diary_day}{1-31, day of diary day in (derived from 'tudiarydate')}
  \item{holiday}{whether the diary day was a holiday ('trholiday')}
  \item{occup_code}{occupation code ('trmjocc1'), see codebook for full unabbreviated list of categories}
  \item{ind_code}{industry code ('trmjind1'), see codebook for full unabbreviated list of categories}
@@ -35,7 +36,7 @@ ATUS Respondent data file from \url{https://www.bls.gov/tus/datafiles_0316.htm} 
 data(atusresp)
 }
 \description{
-This is a 181,335 by 21 data frame containing information on the respondents, including their employment, household, and the diary day (day on which they were interviewed). The data frame here is taken from the ATUS 2003-2016 Respondent file. Variables containing no more than 90\% values missing were considered for inclusion, especially those found on the ATUS Frequently Used Variables list.
+This is a 181,335 by 22 data frame containing information on the respondents, including their employment, household, and the diary day (day on which they were interviewed). The data frame here is taken from the ATUS 2003-2016 Respondent file. Variables containing no more than 90\% values missing were considered for inclusion, especially those found on the ATUS Frequently Used Variables list.
 }
 \examples{
 data(atusresp)
