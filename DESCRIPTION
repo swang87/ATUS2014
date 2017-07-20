@@ -1,0 +1,13 @@
+Package: atus
+Type: Package
+Title: American Time Use Survey 2014 Data
+Version: 0.1
+Date: 2015-11-29
+Author: Paul Gramieri, Alex Titelbaum, Xiaofei Wang
+Maintainer: Xiaofei Wang <swang@amherst.edu>
+Description: ATUS 2014 data from http://www.bls.gov/tus/.
+License: GPL (>= 2)
+LazyData: TRUE
+RoxygenNote: 5.0.1
+NeedsCompilation: no
+Packaged: 2016-03-10 19:23:51 UTC; swang
